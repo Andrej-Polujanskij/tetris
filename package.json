@@ -1,0 +1,12 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "sass scss/style.scss css/style.css --no-source-map",
+    "watch:css": "sass --watch scss/style.scss:css/style.css --no-source-map"
+  },
+  "devDependencies": {
+    "sass": "1.77.8"
+  }
+}
