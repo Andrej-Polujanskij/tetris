@@ -61,7 +61,7 @@ export function rotateMatrix(matrix: Matrix, dir: RotationDirection): Matrix {
   return next
 }
 
-/** Sumaisytas septyniu figuru rinkinys. Garantuoja, kad per 7 figuras pasirodo visos. */
+/** A shuffled set of all seven pieces, so every piece appears once per seven spawns. */
 export function shuffledBag(): PieceType[] {
   const types = [...PIECE_TYPES]
   for (let i = types.length - 1; i > 0; i -= 1) {

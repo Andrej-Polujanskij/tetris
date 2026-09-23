@@ -6,9 +6,9 @@ import type { SurfaceKey } from '@/game/types'
 import { useTetris } from './useTetris'
 
 /**
- * Suriša canvas elementą su renderer'iu ir laiko jo raišką suderintą su realiu dydžiu:
- * backing store yra CSS matmenys * devicePixelRatio, o kontekstas pastumiamas taip,
- * kad piešimo kodas toliau dirbtų loginėmis koordinatėmis.
+ * Binds a canvas element to the renderer and keeps its resolution in step with its
+ * real size: the backing store is the CSS size times devicePixelRatio, and the
+ * context is scaled so drawing code keeps working in logical coordinates.
  */
 export function useCanvasSurface(canvasRef: Ref<HTMLCanvasElement | null>, key: SurfaceKey): void {
   const { registerSurface } = useTetris()

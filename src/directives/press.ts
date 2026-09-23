@@ -72,9 +72,9 @@ function attach(
 }
 
 /**
- * v-press            paspaudimas vieną kartą, veikia tik žaidžiant
- * v-press.repeat     laiko nuspaudus kartoja veiksmą po 220ms, kas 70ms
- * v-press.unguarded  veikia bet kurioje žaidimo fazėje (pauzės mygtukas)
+ * v-press            fires once per press, only while the game is running
+ * v-press.repeat     while held, repeats the action after 220ms, then every 70ms
+ * v-press.unguarded  fires in any game phase (used by the pause button)
  */
 export const vPress: Directive<HTMLElement, PressAction> = {
   mounted(el, binding) {

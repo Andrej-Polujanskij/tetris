@@ -8,8 +8,8 @@ export interface KickPair {
 }
 
 /**
- * Super Rotation System atsistumimo bandymai, sugrupuoti pagal dabartinę orientaciją
- * ir sukimo kryptį. Pirmas bandymas visada [0, 0], t.y. sukimas vietoje.
+ * Super Rotation System kick attempts, grouped by current orientation and rotation
+ * direction. The first attempt is always [0, 0], meaning rotation in place.
  */
 export type KickTable = Record<Rotation, KickPair>
 
@@ -147,11 +147,7 @@ const I: KickTable = {
   },
 }
 
-export function kicksFor(
-  type: PieceType,
-  from: Rotation,
-  dir: RotationDirection,
-): readonly Kick[] {
+export function kicksFor(type: PieceType, from: Rotation, dir: RotationDirection): readonly Kick[] {
   const pair = type === 'I' ? I[from] : JLSTZ[from]
   return dir > 0 ? pair.cw : pair.ccw
 }

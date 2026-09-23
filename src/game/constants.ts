@@ -9,7 +9,10 @@ export const BASE_DROP_MS = 1000
 export const MIN_DROP_MS = 90
 export const DROP_MS_PER_LEVEL = 85
 
-/** Ilgiausias vieno kadro zingsnis. Apsaugo nuo kritimu lavinos grizus i uzfonine korteli. */
+/**
+ * Longest step a single frame may take. Prevents a burst of drops when a
+ * background tab resumes.
+ */
 export const MAX_FRAME_MS = 100
 
 export const PREVIEW_BLOCK = 24
@@ -35,8 +38,8 @@ export interface SurfaceSize {
 }
 
 /**
- * Loginis kiekvieno canvas dydis. Piesimo kodas visada dirba siomis koordinatemis,
- * o realus pikseliu kiekis parenkamas pagal elemento dydi ir devicePixelRatio.
+ * Logical size of each canvas. Drawing code always works in these coordinates,
+ * while the real pixel count follows the element size and devicePixelRatio.
  */
 export const SURFACE_SIZES: Record<SurfaceKey, SurfaceSize> = {
   board: { width: COLS * BLOCK, height: ROWS * BLOCK },

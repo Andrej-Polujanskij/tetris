@@ -38,7 +38,7 @@ export interface GameState extends Stats {
   canHold: boolean
   dropMs: number
   acc: number
-  /** null reiškia: kito kadro laiką imk kaip naują atskaitos tašką. */
+  /** null means: take the next frame timestamp as a fresh reference point. */
   lastTs: number | null
   phase: Phase
 }

@@ -45,7 +45,7 @@ function overlayContentFor(value: Exclude<Phase, 'playing'>): OverlayContent {
 const overlayContent = ref<OverlayContent>(overlayContentFor('idle'))
 const overlayVisible = computed(() => phase.value !== 'playing')
 
-// Zaidziant turinys nekeiciamas, kad issinykstant nedingtu tekstas vidury animacijos.
+// Keep the content while playing so the text does not vanish mid fade-out.
 watch(phase, (value) => {
   if (value === 'playing') return
   overlayContent.value = overlayContentFor(value)

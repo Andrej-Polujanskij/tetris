@@ -1,6 +1,6 @@
 @use 'tokens' as *;
 
-/** Stiklinė kortelė, naudojama statistikos, peržiūros ir pagalbos blokuose. */
+/** Glass card used by the stat, preview and help blocks. */
 @mixin panel-card {
   background: $panel;
   border: 1px solid $line;
@@ -10,7 +10,7 @@
   backdrop-filter: blur(10px);
 }
 
-/** Maža antraštė virš reikšmės arba peržiūros lango. */
+/** Small caption above a value or a preview canvas. */
 @mixin caption-label {
   color: $muted;
   text-transform: uppercase;

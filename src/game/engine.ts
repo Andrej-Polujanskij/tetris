@@ -35,7 +35,7 @@ export interface EngineListeners {
 }
 
 export interface Engine {
-  /** Skirta tik skaitymui: renderer nuo cia ima ka piesti. */
+  /** Read only: the renderer reads what to draw from here. */
   readonly state: GameState
   readonly listeners: EngineListeners
   start(): void
@@ -128,8 +128,8 @@ export function createEngine(): Engine {
   }
 
   /**
-   * Uzfiksuoja figura krovoje. Pirma patikrina, ar nors vienas langelis lieka virs lentos:
-   * tokiu atveju zaidimas baigtas ir i grida nerasoma nieko.
+   * Locks the piece into the stack. Checks first whether any cell stays above the
+   * board: in that case the game is over and nothing is written to the grid.
    */
   function lockPiece(): void {
     const piece = state.current
