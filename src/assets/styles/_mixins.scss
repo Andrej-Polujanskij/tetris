@@ -1,0 +1,19 @@
+@use 'tokens' as *;
+
+/** Stiklinė kortelė, naudojama statistikos, peržiūros ir pagalbos blokuose. */
+@mixin panel-card {
+  background: $panel;
+  border: 1px solid $line;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(10px);
+}
+
+/** Maža antraštė virš reikšmės arba peržiūros lango. */
+@mixin caption-label {
+  color: $muted;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+}
