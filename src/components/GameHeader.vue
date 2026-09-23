@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { useTetris } from '@/composables/useTetris'
+import { useGameControls, useGameState } from '@/composables/useGame'
+import { GamePhase } from '@/game/types'
 import { vPress } from '@/directives/press'
 
-const { phase, togglePause } = useTetris()
+const { phase } = useGameState()
+const { togglePause } = useGameControls()
 </script>
 
 <template>
   <header class="brand">
     <h1>TETRIS</h1>
-    <p>classic on HTML · SCSS · JS</p>
     <button
       v-press.unguarded="togglePause"
       type="button"
       class="pause-btn"
-      :class="{ 'is-paused': phase === 'paused' }"
+      :class="{ 'is-paused': phase === GamePhase.Paused }"
       aria-label="Pause"
     >
       <svg class="pause-btn__icon pause-btn__icon--pause" viewBox="0 0 24 24">
@@ -44,13 +45,6 @@ const { phase, togglePause } = useTetris()
     color: transparent;
     text-shadow: 0 0 28px rgba(92, 225, 255, 0.25);
   }
-
-  p {
-    margin-top: 6px;
-    color: $muted;
-    letter-spacing: 0.08em;
-    font-size: 0.9rem;
-  }
 }
 
 .pause-btn {
@@ -67,10 +61,6 @@ const { phase, togglePause } = useTetris()
       font-size: 1.6rem;
       letter-spacing: 0.3em;
       text-indent: 0.3em;
-    }
-
-    p {
-      display: none;
     }
   }
 

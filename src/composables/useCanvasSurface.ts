@@ -3,7 +3,7 @@ import { onBeforeUnmount, onMounted, watch, type Ref } from 'vue'
 import { SURFACE_SIZES } from '@/game/constants'
 import type { SurfaceKey } from '@/game/types'
 
-import { useTetris } from './useTetris'
+import { registerSurface } from './useGame'
 
 /**
  * Binds a canvas element to the renderer and keeps its resolution in step with its
@@ -11,7 +11,6 @@ import { useTetris } from './useTetris'
  * context is scaled so drawing code keeps working in logical coordinates.
  */
 export function useCanvasSurface(canvasRef: Ref<HTMLCanvasElement | null>, key: SurfaceKey): void {
-  const { registerSurface } = useTetris()
   const logical = SURFACE_SIZES[key]
 
   let ctx: CanvasRenderingContext2D | null = null

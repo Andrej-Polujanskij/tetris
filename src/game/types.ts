@@ -10,7 +10,12 @@ export type Rotation = 0 | 1 | 2 | 3
 
 export type RotationDirection = 1 | -1
 
-export type Phase = 'idle' | 'playing' | 'paused' | 'over'
+export enum GamePhase {
+  Idle = 'idle',
+  Playing = 'playing',
+  Paused = 'paused',
+  Over = 'over',
+}
 
 export type SurfaceKey = 'board' | 'next' | 'hold'
 
@@ -40,5 +45,5 @@ export interface GameState extends Stats {
   acc: number
   /** null means: take the next frame timestamp as a fresh reference point. */
   lastTs: number | null
-  phase: Phase
+  phase: GamePhase
 }

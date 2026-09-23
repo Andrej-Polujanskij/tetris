@@ -1,6 +1,6 @@
 import type { Directive } from 'vue'
 
-import { useTetris } from '@/composables/useTetris'
+import { useGameState } from '@/composables/useGame'
 
 const REPEAT_DELAY_MS = 220
 const REPEAT_RATE_MS = 70
@@ -21,14 +21,14 @@ function attach(
   repeat: boolean,
   guarded: boolean,
 ): PressState {
-  const game = useTetris()
+  const { isPlaying } = useGameState()
   const state: PressState = { action, destroy: () => {} }
 
   let delayTimer: ReturnType<typeof setTimeout> | null = null
   let repeatTimer: ReturnType<typeof setInterval> | null = null
 
   function fire(): void {
-    if (guarded && !game.isPlaying.value) return
+    if (guarded && !isPlaying.value) return
     state.action()
   }
 

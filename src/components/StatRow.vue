@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useTetris } from '@/composables/useTetris'
+import { useGameState } from '@/composables/useGame'
 
-const { score, lines, level } = useTetris()
+const { score, lines, level } = useGameState()
 </script>
 
 <template>

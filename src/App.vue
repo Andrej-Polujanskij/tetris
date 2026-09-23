@@ -8,9 +8,9 @@ import PiecePreview from '@/components/PiecePreview.vue'
 import StatRow from '@/components/StatRow.vue'
 import TouchControls from '@/components/TouchControls.vue'
 import { useKeyboard } from '@/composables/useKeyboard'
-import { useTetris } from '@/composables/useTetris'
+import { useGameLoop } from '@/composables/useGame'
 
-const { startLoop, stopLoop } = useTetris()
+const { startLoop, stopLoop } = useGameLoop()
 
 useKeyboard()
 

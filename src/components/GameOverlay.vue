@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useTetris } from '@/composables/useTetris'
+import { useGameControls, useGameState } from '@/composables/useGame'
 
-const { overlayContent, overlayVisible, primaryAction } = useTetris()
+const { overlayContent, overlayVisible } = useGameState()
+const { primaryAction } = useGameControls()
 </script>
 
 <template>

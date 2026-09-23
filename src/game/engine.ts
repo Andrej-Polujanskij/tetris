@@ -12,10 +12,10 @@ import {
 } from './constants'
 import { kicksFor } from './kicks'
 import { createGrid, rotateMatrix, shuffledBag, spawnPiece } from './pieces'
+import { GamePhase } from './types'
 import type {
   GameState,
   Matrix,
-  Phase,
   Piece,
   PieceType,
   Rotation,
@@ -30,7 +30,7 @@ const NEXT_ROTATION: Record<RotationDirection, Record<Rotation, Rotation>> = {
 
 export interface EngineListeners {
   onStats: (stats: Stats) => void
-  onPhase: (phase: Phase) => void
+  onPhase: (phase: GamePhase) => void
   onHoldAvailability: (canHold: boolean) => void
 }
 
@@ -67,7 +67,7 @@ export function createEngine(): Engine {
     dropMs: BASE_DROP_MS,
     acc: 0,
     lastTs: null,
-    phase: 'idle',
+    phase: GamePhase.Idle,
   }
 
   const listeners: EngineListeners = {
@@ -80,7 +80,7 @@ export function createEngine(): Engine {
     listeners.onStats({ score: state.score, lines: state.lines, level: state.level })
   }
 
-  function setPhase(phase: Phase): void {
+  function setPhase(phase: GamePhase): void {
     if (state.phase === phase) return
     state.phase = phase
     listeners.onPhase(phase)
@@ -124,7 +124,7 @@ export function createEngine(): Engine {
   }
 
   function gameOver(): void {
-    setPhase('over')
+    setPhase(GamePhase.Over)
   }
 
   /**
@@ -195,7 +195,7 @@ export function createEngine(): Engine {
   }
 
   function isPlaying(): boolean {
-    return state.phase === 'playing'
+    return state.phase === GamePhase.Playing
   }
 
   function reset(): void {
@@ -217,17 +217,17 @@ export function createEngine(): Engine {
 
   function start(): void {
     reset()
-    setPhase('playing')
+    setPhase(GamePhase.Playing)
   }
 
   function togglePause(): void {
-    if (state.phase === 'playing') {
-      setPhase('paused')
+    if (state.phase === GamePhase.Playing) {
+      setPhase(GamePhase.Paused)
       return
     }
-    if (state.phase === 'paused') {
+    if (state.phase === GamePhase.Paused) {
       state.lastTs = null
-      setPhase('playing')
+      setPhase(GamePhase.Playing)
     }
   }
 

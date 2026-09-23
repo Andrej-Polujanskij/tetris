@@ -1,6 +1,6 @@
 import { onBeforeUnmount, onMounted } from 'vue'
 
-import { useTetris } from './useTetris'
+import { useGameControls, useGameState } from './useGame'
 
 const MOVEMENT_KEYS = new Set([
   'ArrowLeft',
@@ -18,7 +18,8 @@ const MOVEMENT_KEYS = new Set([
 ])
 
 export function useKeyboard(): void {
-  const game = useTetris()
+  const { isPlaying } = useGameState()
+  const game = useGameControls()
 
   function onKeydown(event: KeyboardEvent): void {
     const { key } = event
@@ -33,7 +34,7 @@ export function useKeyboard(): void {
       return
     }
 
-    if (!game.isPlaying.value || !MOVEMENT_KEYS.has(key)) return
+    if (!isPlaying.value || !MOVEMENT_KEYS.has(key)) return
     event.preventDefault()
 
     switch (key) {

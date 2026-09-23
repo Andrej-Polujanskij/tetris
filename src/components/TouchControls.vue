@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useTetris } from '@/composables/useTetris'
+import { useGameControls, useGameState } from '@/composables/useGame'
 import { vPress } from '@/directives/press'
 
-const { canHold, move, softDrop, rotate, hold, hardDrop } = useTetris()
+const { canHold } = useGameState()
+const { move, softDrop, rotate, hold, hardDrop } = useGameControls()
 </script>
 
 <template>
