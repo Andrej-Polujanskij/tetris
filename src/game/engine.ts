@@ -37,7 +37,6 @@ export interface EngineListeners {
 export interface Engine {
   /** Read only: the renderer reads what to draw from here. */
   readonly state: GameState
-  readonly listeners: EngineListeners
   start(): void
   togglePause(): void
   move(dx: number): void
@@ -47,12 +46,9 @@ export interface Engine {
   hold(): void
   advance(ts: number): void
   ghostY(): number
-  isPlaying(): boolean
 }
 
-const noop = (): void => {}
-
-export function createEngine(): Engine {
+export function createEngine(listeners: EngineListeners): Engine {
   const state: GameState = {
     grid: createGrid(),
     bag: [],
@@ -68,12 +64,6 @@ export function createEngine(): Engine {
     acc: 0,
     lastTs: null,
     phase: GamePhase.Idle,
-  }
-
-  const listeners: EngineListeners = {
-    onStats: noop,
-    onPhase: noop,
-    onHoldAvailability: noop,
   }
 
   function emitStats(): void {
@@ -216,6 +206,7 @@ export function createEngine(): Engine {
   }
 
   function start(): void {
+    if (state.phase !== GamePhase.Idle && state.phase !== GamePhase.Over) return
     reset()
     setPhase(GamePhase.Playing)
   }
@@ -307,7 +298,6 @@ export function createEngine(): Engine {
 
   return {
     state,
-    listeners,
     start,
     togglePause,
     move,
@@ -317,6 +307,5 @@ export function createEngine(): Engine {
     hold,
     advance,
     ghostY,
-    isPlaying,
   }
 }

@@ -11,26 +11,26 @@ export interface OverlayContent {
   button: string
 }
 
-const engine = createEngine()
-const renderer = createRenderer(engine)
-
 const score = ref(0)
 const lines = ref(0)
 const level = ref(1)
 const phase = ref<GamePhase>(GamePhase.Idle)
 const canHold = ref(true)
 
-engine.listeners.onStats = (stats) => {
-  score.value = stats.score
-  lines.value = stats.lines
-  level.value = stats.level
-}
-engine.listeners.onPhase = (value) => {
-  phase.value = value
-}
-engine.listeners.onHoldAvailability = (value) => {
-  canHold.value = value
-}
+const engine = createEngine({
+  onStats: (stats) => {
+    score.value = stats.score
+    lines.value = stats.lines
+    level.value = stats.level
+  },
+  onPhase: (value) => {
+    phase.value = value
+  },
+  onHoldAvailability: (value) => {
+    canHold.value = value
+  },
+})
+const renderer = createRenderer(engine)
 
 function overlayContentFor(value: Exclude<GamePhase, GamePhase.Playing>): OverlayContent {
   switch (value) {
@@ -54,7 +54,6 @@ watch(phase, (value) => {
 })
 
 let rafId = 0
-let running = false
 
 function frame(ts: number): void {
   engine.advance(ts)
@@ -63,30 +62,18 @@ function frame(ts: number): void {
 }
 
 function startLoop(): void {
-  if (running) return
-  running = true
+  if (rafId) return
   rafId = requestAnimationFrame(frame)
 }
 
 function stopLoop(): void {
-  if (!running) return
-  running = false
   cancelAnimationFrame(rafId)
   rafId = 0
 }
 
-function primaryAction(): void {
+function startOrResume(): void {
   if (phase.value === GamePhase.Paused) engine.togglePause()
   else engine.start()
-}
-
-function requestStart(): void {
-  if (phase.value === GamePhase.Idle || phase.value === GamePhase.Over) engine.start()
-}
-
-function togglePause(): void {
-  if (phase.value === GamePhase.Idle || phase.value === GamePhase.Over) return
-  engine.togglePause()
 }
 
 const state = {
@@ -106,9 +93,9 @@ const controls = {
   softDrop: () => engine.softDrop(),
   hardDrop: () => engine.hardDrop(),
   hold: () => engine.hold(),
-  primaryAction,
-  requestStart,
-  togglePause,
+  start: () => engine.start(),
+  togglePause: () => engine.togglePause(),
+  startOrResume,
 }
 
 const loop = { startLoop, stopLoop }

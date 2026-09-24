@@ -2,66 +2,46 @@ import { onBeforeUnmount, onMounted } from 'vue'
 
 import { useGameControls, useGameState } from './useGame'
 
-const MOVEMENT_KEYS = new Set([
-  'ArrowLeft',
-  'ArrowRight',
-  'ArrowDown',
-  'ArrowUp',
-  'x',
-  'X',
-  'z',
-  'Z',
-  ' ',
-  'c',
-  'C',
-  'Shift',
-])
+type KeyActions = Partial<Record<string, () => void>>
 
 export function useKeyboard(): void {
   const { isPlaying } = useGameState()
-  const game = useGameControls()
+  const { move, rotate, softDrop, hardDrop, hold, start, togglePause } = useGameControls()
+
+  const menuKeys: KeyActions = {
+    Enter: start,
+    p: togglePause,
+    P: togglePause,
+    Escape: togglePause,
+  }
+
+  // Only intercepted while playing, so arrows and space still scroll the page otherwise.
+  const gameKeys: KeyActions = {
+    ArrowLeft: () => move(-1),
+    ArrowRight: () => move(1),
+    ArrowDown: softDrop,
+    ArrowUp: () => rotate(1),
+    x: () => rotate(1),
+    X: () => rotate(1),
+    z: () => rotate(-1),
+    Z: () => rotate(-1),
+    ' ': hardDrop,
+    c: hold,
+    C: hold,
+    Shift: hold,
+  }
 
   function onKeydown(event: KeyboardEvent): void {
-    const { key } = event
-
-    if (key === 'Enter') {
-      game.requestStart()
+    const menuAction = menuKeys[event.key]
+    if (menuAction) {
+      menuAction()
       return
     }
 
-    if (key === 'p' || key === 'P' || key === 'Escape') {
-      game.togglePause()
-      return
-    }
-
-    if (!isPlaying.value || !MOVEMENT_KEYS.has(key)) return
+    const gameAction = gameKeys[event.key]
+    if (!gameAction || !isPlaying.value) return
     event.preventDefault()
-
-    switch (key) {
-      case 'ArrowLeft':
-        game.move(-1)
-        break
-      case 'ArrowRight':
-        game.move(1)
-        break
-      case 'ArrowDown':
-        game.softDrop()
-        break
-      case 'ArrowUp':
-      case 'x':
-      case 'X':
-        game.rotate(1)
-        break
-      case 'z':
-      case 'Z':
-        game.rotate(-1)
-        break
-      case ' ':
-        game.hardDrop()
-        break
-      default:
-        game.hold()
-    }
+    gameAction()
   }
 
   onMounted(() => document.addEventListener('keydown', onKeydown))

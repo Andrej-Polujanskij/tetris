@@ -1,7 +1,5 @@
 import type { Directive } from 'vue'
 
-import { useGameState } from '@/composables/useGame'
-
 const REPEAT_DELAY_MS = 220
 const REPEAT_RATE_MS = 70
 const ACTIVE_CLASS = 'is-active'
@@ -15,20 +13,13 @@ interface PressState {
 
 const registry = new WeakMap<HTMLElement, PressState>()
 
-function attach(
-  el: HTMLElement,
-  action: PressAction,
-  repeat: boolean,
-  guarded: boolean,
-): PressState {
-  const { isPlaying } = useGameState()
+function attach(el: HTMLElement, action: PressAction, repeat: boolean): PressState {
   const state: PressState = { action, destroy: () => {} }
 
   let delayTimer: ReturnType<typeof setTimeout> | null = null
   let repeatTimer: ReturnType<typeof setInterval> | null = null
 
   function fire(): void {
-    if (guarded && !isPlaying.value) return
     state.action()
   }
 
@@ -72,15 +63,12 @@ function attach(
 }
 
 /**
- * v-press            fires once per press, only while the game is running
- * v-press.repeat     while held, repeats the action after 220ms, then every 70ms
- * v-press.unguarded  fires in any game phase (used by the pause button)
+ * v-press         fires once per press
+ * v-press.repeat  while held, repeats the action after 220ms, then every 70ms
  */
 export const vPress: Directive<HTMLElement, PressAction> = {
   mounted(el, binding) {
-    const repeat = binding.modifiers.repeat === true
-    const guarded = binding.modifiers.unguarded !== true
-    registry.set(el, attach(el, binding.value, repeat, guarded))
+    registry.set(el, attach(el, binding.value, binding.modifiers.repeat === true))
   },
   updated(el, binding) {
     const state = registry.get(el)

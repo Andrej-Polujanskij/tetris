@@ -1,4 +1,4 @@
-import { onBeforeUnmount, onMounted, watch, type Ref } from 'vue'
+import { onBeforeUnmount, onMounted, type Ref } from 'vue'
 
 import { SURFACE_SIZES } from '@/game/constants'
 import type { SurfaceKey } from '@/game/types'
@@ -12,13 +12,9 @@ import { registerSurface } from './useGame'
  */
 export function useCanvasSurface(canvasRef: Ref<HTMLCanvasElement | null>, key: SurfaceKey): void {
   const logical = SURFACE_SIZES[key]
-
-  let ctx: CanvasRenderingContext2D | null = null
   let observer: ResizeObserver | null = null
 
-  function applySize(canvas: HTMLCanvasElement): void {
-    if (!ctx) return
-
+  function applySize(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
     const rect = canvas.getBoundingClientRect()
     const dpr = window.devicePixelRatio || 1
     const width = Math.max(1, Math.round(rect.width * dpr))
@@ -32,32 +28,21 @@ export function useCanvasSurface(canvasRef: Ref<HTMLCanvasElement | null>, key: 
     ctx.setTransform(width / logical.width, 0, 0, height / logical.height, 0, 0)
   }
 
-  function attach(canvas: HTMLCanvasElement): void {
-    ctx = canvas.getContext('2d')
-    if (!ctx) return
+  onMounted(() => {
+    const canvas = canvasRef.value
+    const ctx = canvas?.getContext('2d')
+    if (!canvas || !ctx) return
 
-    applySize(canvas)
+    applySize(canvas, ctx)
     registerSurface(key, ctx)
 
-    observer = new ResizeObserver(() => applySize(canvas))
+    observer = new ResizeObserver(() => applySize(canvas, ctx))
     observer.observe(canvas)
-  }
+  })
 
-  function detach(): void {
+  onBeforeUnmount(() => {
     observer?.disconnect()
     observer = null
-    ctx = null
     registerSurface(key, null)
-  }
-
-  onMounted(() => {
-    if (canvasRef.value) attach(canvasRef.value)
   })
-
-  watch(canvasRef, (canvas, previous) => {
-    if (previous) detach()
-    if (canvas) attach(canvas)
-  })
-
-  onBeforeUnmount(detach)
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted } from 'vue'
 
-import BoardCanvas from '@/components/BoardCanvas.vue'
+import GameBoard from '@/components/GameBoard.vue'
 import ControlsHelp from '@/components/ControlsHelp.vue'
 import GameHeader from '@/components/GameHeader.vue'
 import PiecePreview from '@/components/PiecePreview.vue'
@@ -28,7 +28,7 @@ onBeforeUnmount(stopLoop)
         <PiecePreview class="preview--hold" surface-key="hold" label="Hold" hint="C / Shift" />
       </aside>
 
-      <BoardCanvas />
+      <GameBoard />
 
       <aside class="panel panel--right">
         <PiecePreview class="preview--next" surface-key="next" label="Next" />

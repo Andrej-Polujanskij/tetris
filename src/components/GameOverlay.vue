@@ -2,7 +2,7 @@
 import { useGameControls, useGameState } from '@/composables/useGame'
 
 const { overlayContent, overlayVisible } = useGameState()
-const { primaryAction } = useGameControls()
+const { startOrResume } = useGameControls()
 </script>
 
 <template>
@@ -10,7 +10,7 @@ const { primaryAction } = useGameControls()
     <div class="overlay__card">
       <h2>{{ overlayContent.title }}</h2>
       <p>{{ overlayContent.text }}</p>
-      <button type="button" @click="primaryAction">{{ overlayContent.button }}</button>
+      <button type="button" @click="startOrResume">{{ overlayContent.button }}</button>
     </div>
   </div>
 </template>

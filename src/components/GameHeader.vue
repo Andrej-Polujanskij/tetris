@@ -11,7 +11,7 @@ const { togglePause } = useGameControls()
   <header class="brand">
     <h1>TETRIS</h1>
     <button
-      v-press.unguarded="togglePause"
+      v-press="togglePause"
       type="button"
       class="pause-btn"
       :class="{ 'is-paused': phase === GamePhase.Paused }"
