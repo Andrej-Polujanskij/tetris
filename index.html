@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,103 +10,9 @@
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Share+Tech+Mono&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <div class="app">
-      <header class="brand">
-        <h1>TETRIS</h1>
-        <p>classic on HTML · SCSS · JS</p>
-        <button type="button" class="pause-btn" id="pause-btn" aria-label="Pause">
-          <svg class="pause-btn__icon pause-btn__icon--pause" viewBox="0 0 24 24">
-            <path d="M7 5h4v14H7zM13 5h4v14h-4z"></path>
-          </svg>
-          <svg class="pause-btn__icon pause-btn__icon--play" viewBox="0 0 24 24">
-            <path d="M8 5l11 7-11 7z"></path>
-          </svg>
-        </button>
-      </header>
-
-      <main class="layout">
-        <aside class="panel panel--left">
-          <div class="stat-row">
-            <section class="stat">
-              <span class="stat__label">Score</span>
-              <strong class="stat__value" id="score">0</strong>
-            </section>
-            <section class="stat">
-              <span class="stat__label">Lines</span>
-              <strong class="stat__value" id="lines">0</strong>
-            </section>
-            <section class="stat">
-              <span class="stat__label">Level</span>
-              <strong class="stat__value" id="level">1</strong>
-            </section>
-          </div>
-          <section class="preview preview--hold">
-            <span class="stat__label">Hold</span>
-            <canvas id="hold" width="120" height="120"></canvas>
-            <small>C / Shift</small>
-          </section>
-        </aside>
-
-        <section class="stage">
-          <canvas id="board" width="300" height="600"></canvas>
-          <div class="overlay" id="overlay">
-            <div class="overlay__card" id="overlay-card">
-              <h2 id="overlay-title">TETRIS</h2>
-              <p id="overlay-text">Press Enter to start</p>
-              <button type="button" id="start-btn">Play</button>
-            </div>
-          </div>
-        </section>
-
-        <aside class="panel panel--right">
-          <section class="preview preview--next">
-            <span class="stat__label">Next</span>
-            <canvas id="next" width="120" height="120"></canvas>
-          </section>
-          <section class="help">
-            <h3>Controls</h3>
-            <ul>
-              <li><kbd>←</kbd> <kbd>→</kbd> move</li>
-              <li><kbd>↓</kbd> soft drop</li>
-              <li><kbd>↑</kbd> / <kbd>X</kbd> rotate</li>
-              <li><kbd>Z</kbd> rotate left</li>
-              <li><kbd>Space</kbd> hard drop</li>
-              <li><kbd>P</kbd> pause</li>
-            </ul>
-          </section>
-        </aside>
-      </main>
-
-      <div class="touch-controls" id="touch-controls">
-        <div class="tc-zone tc-zone--move">
-          <button type="button" class="tc-btn" id="tc-left" aria-label="Move left">
-            <svg viewBox="0 0 24 24"><path d="M15 4 5 12l10 8z"></path></svg>
-          </button>
-          <button type="button" class="tc-btn" id="tc-down" aria-label="Soft drop">
-            <svg viewBox="0 0 24 24"><path d="M4 9h16l-8 10z"></path></svg>
-          </button>
-          <button type="button" class="tc-btn" id="tc-right" aria-label="Move right">
-            <svg viewBox="0 0 24 24"><path d="M9 4l10 8-10 8z"></path></svg>
-          </button>
-        </div>
-        <div class="tc-zone tc-zone--action">
-          <button type="button" class="tc-btn tc-btn--sat tc-btn--hold" id="tc-hold" aria-label="Hold piece">
-            HOLD
-          </button>
-          <button type="button" class="tc-btn tc-btn--rotate" id="tc-rotate" aria-label="Rotate">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"></path>
-            </svg>
-          </button>
-          <button type="button" class="tc-btn tc-btn--sat tc-btn--drop" id="tc-drop" aria-label="Hard drop">
-            DROP
-          </button>
-        </div>
-      </div>
-    </div>
-    <script src="js/tetris.js"></script>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
